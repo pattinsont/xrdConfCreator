@@ -37,7 +37,7 @@ interface MgmtEth0/RP0/CPU0/0
 {%- for interface in interfaces %}
 interface GigabitEthernet0/0/0/{{ interface.interface_id }}
  {%- if interface.peer_node is not none %}
- description to xr-{{ interface.peer_node }}
+ description to {{ settings.host_prefix }}{{ interface.peer_node }}
  cdp
  ipv4 address 100.{{ [node.node_id, interface.peer_node]|min }}.{{ [node.node_id, interface.peer_node]|max }}.{{ node.node_id }} 255.255.255.0
  {%- endif %}
