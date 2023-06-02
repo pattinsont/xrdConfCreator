@@ -1,8 +1,9 @@
-import os
-import yaml
 import argparse
-import pprint
+import os
+
+import yaml
 from jinja2 import Environment, FileSystemLoader
+
 
 def validate_yaml(data):
     """Validate the loaded YAML data."""
