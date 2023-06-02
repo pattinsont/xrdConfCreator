@@ -1,0 +1,13 @@
+nodes:
+  core: [2, 3, 6, 7]
+  access: [1, 4, 5]
+
+networks:
+  core: [[2, 3], [2, 6], [3, 7], [6, 7]]
+  access: [[1, None], [1, 2], [2, 4], [3, 4], [3, 5], [5, None]]
+
+settings:
+  host_prefix: xr-
+  config_suffix:  .cfg
+  output_path: ./
+

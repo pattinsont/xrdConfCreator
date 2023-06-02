@@ -1,0 +1,71 @@
+services:
+  xr-1:
+    xr_startup_cfg: xr-1.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Mg0/RP0/CPU0/0
+  xr-2:
+    xr_startup_cfg: xr-2.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Gi0/0/0/2
+      - Gi0/0/0/3
+      - Mg0/RP0/CPU0/0
+  xr-3:
+    xr_startup_cfg: xr-3.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Gi0/0/0/2
+      - Gi0/0/0/3
+      - Mg0/RP0/CPU0/0
+  xr-4:
+    xr_startup_cfg: xr-4.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Mg0/RP0/CPU0/0
+  xr-5:
+    xr_startup_cfg: xr-5.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Mg0/RP0/CPU0/0
+  xr-6:
+    xr_startup_cfg: xr-6.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Mg0/RP0/CPU0/0
+  xr-7:
+    xr_startup_cfg: xr-7.cfg
+    xr_interfaces:
+      - Gi0/0/0/0
+      - Gi0/0/0/1
+      - Mg0/RP0/CPU0/0
+
+xr_l2networks:
+  - ["xr-1:Gi0/0/0/1", "xr-2:Gi0/0/0/0"]
+  - ["xr-2:Gi0/0/0/1", "xr-3:Gi0/0/0/0"]
+  - ["xr-2:Gi0/0/0/2", "xr-4:Gi0/0/0/0"]
+  - ["xr-2:Gi0/0/0/3", "xr-6:Gi0/0/0/0"]
+  - ["xr-3:Gi0/0/0/1", "xr-4:Gi0/0/0/1"]
+  - ["xr-3:Gi0/0/0/2", "xr-5:Gi0/0/0/0"]
+  - ["xr-3:Gi0/0/0/3", "xr-7:Gi0/0/0/0"]
+  - ["xr-6:Gi0/0/0/1", "xr-7:Gi0/0/0/1"]
+
+networks:
+  mgmt:
+    xr_interfaces:
+      - xr-1:Mg0/RP0/CPU0/0
+      - xr-2:Mg0/RP0/CPU0/0
+      - xr-3:Mg0/RP0/CPU0/0
+      - xr-4:Mg0/RP0/CPU0/0
+      - xr-5:Mg0/RP0/CPU0/0
+      - xr-6:Mg0/RP0/CPU0/0
+      - xr-7:Mg0/RP0/CPU0/0
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24

@@ -1,0 +1,27 @@
+services:
+{%- for node in nodes %}
+  {{ settings.host_prefix }}{{ node.node_id }}:
+    xr_startup_cfg: {{ settings.host_prefix }}{{ node.node_id }}{{ settings.config_suffix }}
+    xr_interfaces:
+    {%- for interface in node.interfaces %}
+      - Gi0/0/0/{{ interface }}
+    {%- endfor %}
+      - Mg0/RP0/CPU0/0
+{%- endfor %}
+
+xr_l2networks:
+{%- for network in networks %}
+  {%- if network.destination_node is not none %}
+  - ["{{ settings.host_prefix }}{{ network.source_node }}:Gi0/0/0/{{ network.source_interface }}", "{{ settings.host_prefix }}{{ network.destination_node }}:Gi0/0/0/{{ network.destination_interface }}"]
+  {%- endif %}
+{%- endfor %}
+
+networks:
+  mgmt:
+    xr_interfaces:
+    {%- for node in nodes %}
+      - {{ settings.host_prefix }}{{ node.node_id }}:Mg0/RP0/CPU0/0
+    {%- endfor %}
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24

@@ -1,0 +1,71 @@
+hostname xr-{{ node.node_id }}
+username lab
+ group root-lr
+ group cisco-support
+ secret 10 $6$Y0vmA/kiAH9n2A/.$QUYxHxt8oK62AtJTyt16nTGPvgbZ3OunOQWP4FIY1X6aUxN.RzI0QRFoDxu./S2at/H2y0VEZyNKB/J1N8B3x/
+!
+cdp
+line default
+ exec-timeout 240 0
+!
+call-home
+ service active
+ contact smart-licensing
+ profile CiscoTAC-1
+  active
+  destination transport-method email disable
+  destination transport-method http
+ !
+!
+interface Loopback0
+ description Loopback
+ ipv4 address 100.255.255.{{ node.node_id }} 255.255.255.255
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address 172.30.0.{{ 100 + node.node_id }} 255.255.255.0
+!
+{%- for interface in interfaces %}
+interface GigabitEthernet0/0/0/{{ interface.interface_id }}
+ {%- if interface.peer_node is not none %}
+ description to xr-{{ interface.peer_node }}
+ cdp
+ ipv4 address 100.{{ [node.node_id, interface.peer_node]|min }}.{{ [node.node_id, interface.peer_node]|max }}.{{ node.node_id }} 255.255.255.0
+ {%- endif %}
+{%- endfor %}
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 172.30.0.1
+!
+router isis 1
+ is-type level-2-only
+ net 49.0001.0000.0000.{{ '%04x' | format(node.node_id) }}.00
+ mpls ldp sync
+ address-family ipv4 unicast
+  metric-style wide
+  mpls ldp auto-config
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+ !
+ {%- for interface in interfaces %}
+ interface GigabitEthernet0/0/0/{{ interface.interface_id }}
+  point-to-point
+  address-family ipv4 unicast
+  {%- if interface.interface_type == "access" %}
+  metric 100
+  {%- elif interface.interface_type == "core" %}
+  metric 10
+  {%- endif %}
+ !
+ {%- endfor %}
+mpls ldp
+ router-id 100.255.255.{{ node.node_id }}
+ {%- for interface in interfaces %}
+ interface GigabitEthernet0/0/0/{{ interface.interface_id }}
+  address-family ipv4
+ {%- endfor %}
+!
+ssh server vrf default
+end
