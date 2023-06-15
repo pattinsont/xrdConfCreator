@@ -172,7 +172,7 @@ def get_env(config):
 
     env = Environment(loader=FileSystemLoader(template_path))
 
-    print (env)
+    print(env)
 
     return env
 
