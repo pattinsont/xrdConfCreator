@@ -40,6 +40,7 @@ def validate_yaml(data):
                 raise ValueError(
                     f"Invalid network connection for '{network_type}': {connection}. Source and/or destination not found in nodes.")
 
+
     # Check settings
     required_settings = ['host_prefix', 'config_suffix']
     for setting in required_settings:
@@ -161,12 +162,11 @@ def prepare_data(yaml_path):
     return data
 
 
-def get_env():
-    if data['settings'].get('global_template', False):
+def get_env(docker_compose):
+    if data['settings'].get('global_template', False) and not docker_compose:
         base_directory = os.path.dirname(os.path.abspath(__file__))
     else:
         base_directory = os.getcwd()
-
 
     template_path = os.path.join(base_directory, 'templates')
 
@@ -181,7 +181,7 @@ def render_docker_compose(data):
     settings = data['settings']
 
     # Load Jinja2 template
-    env = get_env()
+    env = get_env(True)
     template = env.get_template('docker-compose.xr.jinja2')
 
     # Render the template with the data
@@ -198,7 +198,7 @@ def render_docker_compose(data):
 
 def render_node_config(data):
     # Create the Jinja2 environment and load templates from the filesystem
-    env = get_env()
+    env = get_env(False)
 
     # Loop over each node
     for node in data['nodes']:
