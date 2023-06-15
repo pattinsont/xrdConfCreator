@@ -172,7 +172,6 @@ def get_env(config):
         else:
             template_path = os.getcwd()
 
-    print(template_path)
     env = Environment(loader=FileSystemLoader(template_path))
 
     return env
