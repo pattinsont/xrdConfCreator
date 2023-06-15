@@ -242,9 +242,6 @@ def render_node_config(data):
             'other_nodes': other_nodes,
             'settings': data['settings']
         }
-        pp = pprint.PrettyPrinter(indent=4, compact=True)
-        print()
-        pp.pprint(config_data)
 
         # Render the template with the data
         config = template.render(config_data)
