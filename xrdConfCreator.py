@@ -163,7 +163,7 @@ def prepare_data(yaml_path):
 
 
 def get_env(config):
-    if not (data['settings'].get('global_template', False) and (not config)):
+    if (not config or data['settings'].get('global_template', False)):
         base_directory = os.path.dirname(os.path.abspath(__file__))
     else:
         base_directory = os.getcwd()
