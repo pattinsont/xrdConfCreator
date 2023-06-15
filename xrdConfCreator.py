@@ -168,11 +168,11 @@ def get_env(config):
         template_path = os.path.join(base_directory, 'templates')
     else:
         if yaml_path:
-            template_path = os.path.join(os.getcwd(), yaml_path)
+            template_path = os.path.join(os.getcwd(), os.path.dirname(yaml_path).lstrip('./'))
         else:
             template_path = os.getcwd()
 
-    print(template_path )
+    print(template_path)
     env = Environment(loader=FileSystemLoader(template_path))
 
     return env
