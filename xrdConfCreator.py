@@ -165,10 +165,11 @@ def prepare_data(yaml_path):
 def get_env(config):
     if (not config or data['settings'].get('global_template', False)):
         base_directory = os.path.dirname(os.path.abspath(__file__))
+        template_path = os.path.join(base_directory, 'templates')
     else:
         base_directory = os.getcwd()
+        template_path = os.path
 
-    template_path = os.path.join(base_directory, 'templates')
 
     print(template_path )
     env = Environment(loader=FileSystemLoader(template_path))
