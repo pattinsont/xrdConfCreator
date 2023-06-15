@@ -170,9 +170,8 @@ def get_env(config):
 
     template_path = os.path.join(base_directory, 'templates')
 
+    print(template_path )
     env = Environment(loader=FileSystemLoader(template_path))
-
-    print(env)
 
     return env
 
