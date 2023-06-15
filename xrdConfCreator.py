@@ -162,8 +162,8 @@ def prepare_data(yaml_path):
     return data
 
 
-def get_env(docker_compose):
-    if data['settings'].get('global_template', False) and not docker_compose:
+def get_env(config):
+    if data['settings'].get('global_template', False) and config:
         base_directory = os.path.dirname(os.path.abspath(__file__))
     else:
         base_directory = os.getcwd()
@@ -181,7 +181,7 @@ def render_docker_compose(data):
     settings = data['settings']
 
     # Load Jinja2 template
-    env = get_env(True)
+    env = get_env(False)
     template = env.get_template('docker-compose.xr.jinja2')
 
     # Render the template with the data
@@ -198,7 +198,7 @@ def render_docker_compose(data):
 
 def render_node_config(data):
     # Create the Jinja2 environment and load templates from the filesystem
-    env = get_env(False)
+    env = get_env(True)
 
     # Loop over each node
     for node in data['nodes']:
