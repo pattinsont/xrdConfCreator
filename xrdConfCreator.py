@@ -167,9 +167,7 @@ def get_env(config):
         base_directory = os.path.dirname(os.path.abspath(__file__))
         template_path = os.path.join(base_directory, 'templates')
     else:
-        base_directory = os.getcwd()
-        template_path = os.path
-
+        template_path = os.getcwd()
 
     print(template_path )
     env = Environment(loader=FileSystemLoader(template_path))
