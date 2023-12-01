@@ -77,10 +77,10 @@ def prepare_networks_data(yaml_data):
         source, destination = item[0]
         if destination in [None, 'None']:
             if none_peer_setting == 'beginning':
-                return (source, float('-inf'))
+                return (source, 0)  # Use 0 for sorting 'None' at the beginning
             elif none_peer_setting == 'end':
-                return (source, float('inf'))
-        return (source, destination)
+                return (source, 2)  # Use 2 for sorting 'None' at the end
+        return (source, 1)  # Use 1 for all other items
 
     # Sort combined_networks by source_node and destination_node based on setting
     sorted_networks = sorted(combined_networks, key=sorting_key)
