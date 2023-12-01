@@ -281,6 +281,11 @@ def print_help():
     settings:
         host_prefix: <string>
         config_suffix: <string starting with .>
+        none_peer_interface_location: <'beginning', 'as_placed', 'end'> (optional)
+            Determines the placement of interfaces with a None peer. 
+            'beginning': Places None peer interfaces at the beginning.
+            'as_placed': Keeps None peer interfaces in the order they are defined.
+            'end': Places None peer interfaces at the end.
         output_path: <string> (optional)
         global_template: <boolean> (optional)
 

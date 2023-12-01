@@ -88,7 +88,11 @@ The network type is used to select values within a configuration file. For insta
     *   `output_path`: This setting specifies the directory where the generated files will be saved. In this example, it is the current directory (`./`).
         
     *   `global_template`: (Optional) A boolean flag to control the directory from which templates are loaded. If set to true, templates are loaded from the script directory. If false or omitted, templates are loaded from the current directory.
-        
+
+    * `none_peer_interface_location`: (Optional) This setting determines the placement of interfaces with a None peer in the network configuration. It can be set to one of the following values:
+      * `beginning`: Places interfaces with a None peer at the beginning of the interface list.
+      * `as_placed`: Keeps interfaces with a None peer in the order they are defined in the YAML file.
+      * `end`: Places interfaces with a None peer at the end of the interface list.
 
 Outputs
 -------
