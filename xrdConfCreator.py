@@ -192,7 +192,7 @@ def render_docker_compose(data):
     settings = data['settings']
 
     # Load Jinja2 template
-    env = get_env(False)
+    env = get_env(True)
     template = env.get_template('docker-compose.xr.jinja2')
 
     # Render the template with the data
