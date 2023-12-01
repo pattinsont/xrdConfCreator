@@ -62,7 +62,6 @@ def load_yaml(yaml_path):
     return data
 
 
-
 def prepare_networks_data(yaml_data):
     node_connections = {}
     networks_data = []
@@ -71,9 +70,20 @@ def prepare_networks_data(yaml_data):
     for network_type, networks in yaml_data['networks'].items():
         combined_networks.extend([(network, network_type) for network in networks])
 
-    # Sort combined_networks by source_node and destination_node
-    # 'None' and None will be sorted first in the destination
-    sorted_networks = sorted(combined_networks, key=lambda x: (x[0][0], float('-inf') if x[0][1] in [None, 'None'] else x[0][1]))
+    # Determine the sorting key based on the 'none_peer_interface_location' setting
+    none_peer_setting = yaml_data['settings'].get('none_peer_interface_location', 'beginning')
+
+    def sorting_key(item):
+        source, destination = item[0]
+        if destination in [None, 'None']:
+            if none_peer_setting == 'beginning':
+                return (source, float('-inf'))
+            elif none_peer_setting == 'end':
+                return (source, float('inf'))
+        return (source, destination)
+
+    # Sort combined_networks by source_node and destination_node based on setting
+    sorted_networks = sorted(combined_networks, key=sorting_key)
 
     for network, network_type in sorted_networks:
         source_node = network[0]
@@ -103,7 +113,6 @@ def prepare_networks_data(yaml_data):
         })
 
     return networks_data, node_connections
-
 
 def prepare_nodes_data(yaml_data, node_connections):
     nodes_data = []
